@@ -1,0 +1,42 @@
+[package]
+name = "resc"
+version = "0.1.0-canary"
+authors = ["Andrey Gulitsky <gulitsky@reactance.io>"]
+categories = ["embedded", "hardware-support", "no-std"]
+edition = "2018"
+homepage = "https://resc.reactance.io"
+keywords = ["arm", "cortex-m", "firmware", "motor",]
+license = "Apache-2.0"
+publish = false
+readme = "README.md"
+repository = "https://github.com/xforreactance/resc"
+description = "Three-phase AC motor field-oriented controller firmware."
+
+[badges]
+is-it-maintained-issue-resolution = { repository = "https://github.com/xforreactance/resc" }
+is-it-maintained-open-issues = { repository = "https://github.com/xforreactance/resc" }
+maintenance = { status = "actively-developed" }
+
+[dependencies]
+cortex-m = "0.6.1"
+cortex-m-rt = "0.6.10"
+cortex-m-rtfm = "0.5.0"
+embedded-hal = { version = "0.2.3", features = ["unproven"] }
+panic-abort = { version = "0.3.2", optional = true }
+panic-never = { version = "0.1.0", optional = true }
+panic-reset = { version = "0.1.0", optional = true }
+
+[dev-dependencies]
+cortex-m-semihosting = "0.3.5"
+panic-halt = { version = "0.2.0", optional = true }
+panic-itm = { version = "0.4.1", optional = true }
+panic-ramdump = { version = "0.1.1", optional = true }
+panic-semihosting = { version = "0.5.3", optional = true }
+
+[profile.release]
+codegen-units = 1
+debug = true
+lto = true
+
+[features]
+default = ["panic-abort", "panic-halt"]
