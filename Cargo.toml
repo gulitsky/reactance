@@ -1,3 +1,5 @@
+cargo-features = ["profile-overrides"]
+
 [package]
 name = "resc"
 version = "0.1.0-canary"
@@ -30,6 +32,10 @@ panic-never = { version = "0.1.0", optional = true }
 panic-ramdump = { version = "0.1.1", optional = true }
 panic-reset = { version = "0.1.0", optional = true }
 panic-semihosting = { version = "0.5.3", optional = true }
+
+[profile.dev.package."*"]
+codegen-units = 1
+opt-level = "z"
 
 [profile.release]
 codegen-units = 1
