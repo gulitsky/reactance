@@ -25,6 +25,7 @@ cortex-m-rt = "0.6.10"
 cortex-m-rtfm = "0.5.0"
 cortex-m-semihosting = "0.3.5"
 embedded-hal = { version = "0.2.3", features = ["unproven"] }
+nrf52840-hal = "0.8.1"
 panic-abort = { version = "0.3.2", optional = true }
 panic-halt = { version = "0.2.0", optional = true }
 panic-itm = { version = "0.4.1", optional = true }
@@ -32,10 +33,6 @@ panic-never = { version = "0.1.0", optional = true }
 panic-ramdump = { version = "0.1.1", optional = true }
 panic-reset = { version = "0.1.0", optional = true }
 panic-semihosting = { version = "0.5.3", optional = true }
-
-[dependencies.stm32f4xx-hal]
-version = "0.6.0"
-features = ["stm32f407", "rt"]
 
 [profile.dev.package."*"]
 codegen-units = 1
