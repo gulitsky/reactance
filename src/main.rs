@@ -22,13 +22,16 @@ use panic_reset as _;
 #[cfg(all(debug_assertions, feature = "panic-semihosting"))]
 use panic_semihosting as _;
 
-use cortex_m::asm;
-use cortex_m_rt::entry;
+use rtfm::app;
 
-#[entry]
-fn main() -> ! {
-    asm::nop();
-    loop {
+use stm32f4xx_hal as hal;
+use hal::{stm32 as device};
 
+#[app(device = stm32f4xx_hal::stm32, peripherals = true)]
+const APP: () = {
+    #[init]
+    fn init(c: init::Context) {
+        let cp = c.core;
+        let dp = c.device;
     }
-}
+};
