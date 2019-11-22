@@ -24,14 +24,14 @@ use panic_semihosting as _;
 
 use rtfm::app;
 
-use nrf52840_hal as hal;
-use hal::{nrf52840_pac as device};
+use stm32f4xx_hal as hal;
+use hal::{stm32 as device};
 
-#[app(device = nrf52840_hal::nrf52840_pac, peripherals = true)]
+#[app(device = stm32f4xx_hal::stm32, peripherals = true)]
 const APP: () = {
     #[init]
     fn init(c: init::Context) {
-        let cp: cortex_m::Peripherals = c.core;
-        let dp: device::Peripherals = c.device;
+        let cp = c.core;
+        let dp = c.device;
     }
 };
