@@ -13,8 +13,8 @@ use panic_itm as _;
 #[cfg(all(not(debug_assertions), feature = "panic-never"))]
 use panic_never as _;
 
-#[cfg(all(debug_assertions, feature = "panic-ramdump"))]
-use panic_ramdump as _;
+#[cfg(all(not(debug_assertions), feature = "panic-persist"))]
+use panic_persist as _;
 
 #[cfg(all(not(debug_assertions), feature = "panic-reset"))]
 use panic_reset as _;
@@ -22,9 +22,9 @@ use panic_reset as _;
 #[cfg(all(debug_assertions, feature = "panic-semihosting"))]
 use panic_semihosting as _;
 
-use rtfm::app;
+use nrf52840_hal::{clocks, prelude::*, target as device};
 
-use nrf52840_hal::{prelude::*, target as device};
+use rtfm::app;
 
 #[app(device = nrf52840_hal::target, peripherals = true)]
 const APP: () = {
@@ -37,7 +37,7 @@ const APP: () = {
             .CLOCK
             .constrain()
             .enable_ext_hfosc()
-            .set_lfclk_src_synth()
+            .set_lfclk_src_external(clocks::LfOscConfiguration::NoExternalNoBypass)
             .start_lfclk();
     }
 };
