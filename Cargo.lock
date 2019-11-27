@@ -312,6 +312,7 @@ dependencies = [
  "cortex-m-rt 0.6.10 (registry+https://github.com/rust-lang/crates.io-index)",
  "cortex-m-rtfm 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "embedded-graphics 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "embedded-hal 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "nrf52840-hal 0.8.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "panic-abort 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "panic-halt 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
