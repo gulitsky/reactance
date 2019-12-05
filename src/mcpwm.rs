@@ -91,10 +91,13 @@ impl<PINS> Mcpwm<TIM1, PINS> {
         // enable and reset peripheral to a clean slate state
         rcc.apb2enr.modify(|_, w| w.tim1en().enabled());
         rcc.apb2rstr.modify(|_, w| w.tim1rst().reset());
+        rcc.apb2rstr.modify(|_, w| w.tim1rst().clear_bit());
 
         tim.cr1
             .write(|w| w.cen().enabled().cms().center_aligned3().arpe().enabled());
         tim.cr2.write(|w| w.ccpc().set_bit());
+        tim.bdtr
+            .write(|w| w.ossi().idle_level().ossr().idle_level());
 
         Mcpwm { tim, pins }
     }
@@ -109,6 +112,9 @@ impl<PINS> Pwm for Mcpwm<TIM1, PINS> {
         match phase {
             Self::Channel::U => {
                 self.tim
+                    .cr2
+                    .modify(|_, w| w.ois1().clear_bit().ois1n().clear_bit());
+                self.tim
                     .ccmr1_output()
                     .modify(|_, w| w.oc1fe().set_bit().oc1pe().enabled().oc1m().pwm_mode1());
                 self.tim
@@ -116,6 +122,9 @@ impl<PINS> Pwm for Mcpwm<TIM1, PINS> {
                     .modify(|_, w| w.cc1e().set_bit().cc1ne().set_bit());
             }
             Self::Channel::V => {
+                self.tim
+                    .cr2
+                    .modify(|_, w| w.ois2().clear_bit().ois2n().clear_bit());
                 self.tim
                     .ccmr1_output()
                     .modify(|_, w| w.oc2fe().set_bit().oc2pe().enabled().oc2m().pwm_mode1());
@@ -125,6 +134,9 @@ impl<PINS> Pwm for Mcpwm<TIM1, PINS> {
             }
             Self::Channel::W => {
                 self.tim
+                    .cr2
+                    .modify(|_, w| w.ois3().clear_bit().ois3n().clear_bit());
+                self.tim
                     .ccmr2_output()
                     .modify(|_, w| w.oc3fe().set_bit().oc3pe().enabled().oc3m().pwm_mode1());
                 self.tim
@@ -132,5 +144,6 @@ impl<PINS> Pwm for Mcpwm<TIM1, PINS> {
                     .modify(|_, w| w.cc3e().set_bit().cc3ne().set_bit());
             }
         }
+        self.tim.egr.write(|w| w.comg().set_bit());
     }
 }
