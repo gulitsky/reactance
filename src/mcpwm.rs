@@ -92,7 +92,9 @@ impl<PINS> Mcpwm<TIM1, PINS> {
         rcc.apb2enr.modify(|_, w| w.tim1en().enabled());
         rcc.apb2rstr.modify(|_, w| w.tim1rst().reset());
 
-        tim.cr1.write(|w| w.arpe().enabled().cen().enabled());
+        tim.cr1
+            .write(|w| w.cen().enabled().cms().center_aligned3().arpe().enabled());
+        tim.cr2.write(|w| w.ccpc().set_bit());
 
         Mcpwm { tim, pins }
     }
