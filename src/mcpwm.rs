@@ -20,6 +20,7 @@ pub trait PinVH<TIM> {}
 pub trait PinVL<TIM> {}
 pub trait PinWH<TIM> {}
 pub trait PinWL<TIM> {}
+pub trait PinBRK<TIM> {}
 
 impl PinUL<TIM1> for PA7<Alternate<AF1>> {}
 impl PinUH<TIM1> for PA8<Alternate<AF1>> {}
@@ -57,8 +58,15 @@ impl PinWH<TIM8> for PC8<Alternate<AF3>> {}
 impl PinWL<TIM8> for PH15<Alternate<AF3>> {}
 impl PinWH<TIM8> for PI7<Alternate<AF3>> {}
 
+impl PinBRK<TIM1> for PA6<Alternate<AF1>> {}
+impl PinBRK<TIM1> for PB12<Alternate<AF1>> {}
+impl PinBRK<TIM1> for PE15<Alternate<AF1>> {}
+
+impl PinBRK<TIM8> for PA6<Alternate<AF3>> {}
+impl PinBRK<TIM8> for PI4<Alternate<AF3>> {}
+
 pub trait Pins<TIM> {}
-impl<TIM, UH, UL, VH, VL, WH, WL> Pins<TIM> for (UH, UL, VH, VL, WH, WL)
+impl<TIM, UH, UL, VH, VL, WH, WL, BRK> Pins<TIM> for (UH, UL, VH, VL, WH, WL, BRK)
 where
     UH: PinUH<TIM>,
     UL: PinUL<TIM>,
@@ -66,6 +74,7 @@ where
     VL: PinVL<TIM>,
     WH: PinWH<TIM>,
     WL: PinWL<TIM>,
+    BRK: PinBRK<TIM>,
 {
 }
 
@@ -94,10 +103,21 @@ impl<PINS> Mcpwm<TIM1, PINS> {
         rcc.apb2rstr.modify(|_, w| w.tim1rst().clear_bit());
 
         tim.cr1
-            .write(|w| w.cen().enabled().cms().center_aligned3().arpe().enabled());
+            .write(|w| w.cms().center_aligned3().arpe().enabled());
         tim.cr2.write(|w| w.ccpc().set_bit());
-        tim.bdtr
-            .write(|w| w.ossi().idle_level().ossr().idle_level());
+        tim.bdtr.write(|w| {
+            w.ossi()
+                .idle_level()
+                .ossr()
+                .idle_level()
+                .bke()
+                .set_bit()
+                .bkp()
+                .set_bit()
+                .aoe()
+                .set_bit()
+        });
+        tim.cr1.modify(|_, w| w.cen().enabled());
 
         Mcpwm { tim, pins }
     }
@@ -108,6 +128,27 @@ impl<PINS> Pwm for Mcpwm<TIM1, PINS> {
     type Time = Hertz;
     type Duty = u16;
 
+    fn disable(&mut self, phase: Self::Channel) {
+        match phase {
+            Self::Channel::U => {
+                self.tim
+                    .ccer
+                    .modify(|_, w| w.cc1e().clear_bit().cc1ne().clear_bit());
+            }
+            Self::Channel::V => {
+                self.tim
+                    .ccer
+                    .modify(|_, w| w.cc2e().clear_bit().cc2ne().clear_bit());
+            }
+            Self::Channel::W => {
+                self.tim
+                    .ccer
+                    .modify(|_, w| w.cc3e().clear_bit().cc3ne().clear_bit());
+            }
+        }
+        self.tim.egr.write(|w| w.comg().set_bit());
+    }
+
     fn enable(&mut self, phase: Self::Channel) {
         match phase {
             Self::Channel::U => {
@@ -116,7 +157,7 @@ impl<PINS> Pwm for Mcpwm<TIM1, PINS> {
                     .modify(|_, w| w.ois1().clear_bit().ois1n().clear_bit());
                 self.tim
                     .ccmr1_output()
-                    .modify(|_, w| w.oc1fe().set_bit().oc1pe().enabled().oc1m().pwm_mode1());
+                    .modify(|_, w| w.oc1pe().enabled().oc1m().pwm_mode1());
                 self.tim
                     .ccer
                     .modify(|_, w| w.cc1e().set_bit().cc1ne().set_bit());
@@ -127,7 +168,7 @@ impl<PINS> Pwm for Mcpwm<TIM1, PINS> {
                     .modify(|_, w| w.ois2().clear_bit().ois2n().clear_bit());
                 self.tim
                     .ccmr1_output()
-                    .modify(|_, w| w.oc2fe().set_bit().oc2pe().enabled().oc2m().pwm_mode1());
+                    .modify(|_, w| w.oc2pe().enabled().oc2m().pwm_mode1());
                 self.tim
                     .ccer
                     .modify(|_, w| w.cc2e().set_bit().cc2ne().set_bit());
@@ -138,12 +179,36 @@ impl<PINS> Pwm for Mcpwm<TIM1, PINS> {
                     .modify(|_, w| w.ois3().clear_bit().ois3n().clear_bit());
                 self.tim
                     .ccmr2_output()
-                    .modify(|_, w| w.oc3fe().set_bit().oc3pe().enabled().oc3m().pwm_mode1());
+                    .modify(|_, w| w.oc3pe().enabled().oc3m().pwm_mode1());
                 self.tim
                     .ccer
                     .modify(|_, w| w.cc3e().set_bit().cc3ne().set_bit());
             }
         }
         self.tim.egr.write(|w| w.comg().set_bit());
+    }
+
+    fn get_period(&self) -> Self::Time {
+        // self.tim.arr.read().arr().bits() as Self::Time
+    }
+
+    fn get_duty(&self, phase: Self::Channel) -> Self::Duty {
+        match phase {
+            Self::Channel::U => self.tim.ccr1.read().ccr().bits(),
+            Self::Channel::V => self.tim.ccr2.read().ccr().bits(),
+            Self::Channel::W => self.tim.ccr3.read().ccr().bits(),
+        }
+    }
+
+    fn get_max_duty(&self) -> Self::Duty {
+        self.tim.arr.read().arr().bits()
+    }
+
+    fn set_duty(&mut self, phase: Self::Channel, duty: Self::Duty) {}
+
+    fn set_period<P>(&mut self, period: P)
+    where
+        P: Into<Self::Time>,
+    {
     }
 }
