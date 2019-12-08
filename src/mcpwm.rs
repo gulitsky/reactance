@@ -10,8 +10,10 @@ use super::hal::{
         gpioi::{PI4, PI5, PI6, PI7},
         Alternate, AF1, AF3,
     },
+    rcc::Clocks,
     time::Hertz,
 };
+use cast::{u16, u32};
 use embedded_hal::Pwm;
 
 pub trait PinUL<TIM> {}
@@ -86,13 +88,14 @@ pub enum Phase {
 
 /// Hardware motor control PWM peripheral
 pub struct Mcpwm<TIM, PINS> {
+    clocks: Clocks,
     tim: TIM,
     pins: PINS,
 }
 
 impl<PINS> Mcpwm<TIM1, PINS> {
     /// Configures a TIM peripheral as a motor control PWM output
-    pub fn new(tim: TIM1, pins: PINS) -> Self
+    pub fn new(tim: TIM1, pins: PINS, clocks: Clocks) -> Self
     where
         PINS: Pins<TIM1>,
     {
@@ -117,9 +120,10 @@ impl<PINS> Mcpwm<TIM1, PINS> {
                 .aoe()
                 .set_bit()
         });
+
         tim.cr1.modify(|_, w| w.cen().enabled());
 
-        Mcpwm { tim, pins }
+        Mcpwm { clocks, tim, pins }
     }
 }
 
@@ -189,7 +193,7 @@ impl<PINS> Pwm for Mcpwm<TIM1, PINS> {
     }
 
     fn get_period(&self) -> Self::Time {
-        // self.tim.arr.read().arr().bits() as Self::Time
+        // self.period
     }
 
     fn get_duty(&self, phase: Self::Channel) -> Self::Duty {
@@ -210,5 +214,14 @@ impl<PINS> Pwm for Mcpwm<TIM1, PINS> {
     where
         P: Into<Self::Time>,
     {
+        let frequency = period.into().0;
+        let pclk_mul = if self.clocks.ppre2() == 1 { 1 } else { 2 };
+        let ticks = self.clocks.pclk2().0 * pclk_mul / frequency;
+
+        let psc = u16((ticks - 1) / (1 << 16)).unwrap();
+        self.tim.psc.write(|w| w.psc().bits(psc));
+
+        let arr = u16(ticks / u32(psc + 1)).unwrap();
+        self.tim.arr.write(|w| w.arr().bits(arr));
     }
 }
