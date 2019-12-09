@@ -9,7 +9,7 @@ break main
 
 monitor arm semihosting enable
 
-monitor tpiu config internal itm.tx uart off 64000000
+monitor tpiu config internal itm.txt uart off 168000000
 monitor itm port 0 on
 
 load

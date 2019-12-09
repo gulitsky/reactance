@@ -36,6 +36,6 @@ const APP: () = {
         let _dp: device::Peripherals = c.device;
 
         let rcc = _dp.RCC.constrain();
-        let _clocks = rcc.cfgr.use_hse(26.mhz()).sysclk(168.mhz()).freeze();
+        let _clocks = rcc.cfgr.use_hse(8.mhz()).sysclk(168.mhz()).freeze();
     }
 };
