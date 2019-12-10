@@ -1,0 +1,58 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "cortex-debug",
+      "request": "launch",
+      "name": "Debug (PyOCD)",
+      "cwd": "${workspaceRoot}",
+      "executable": "./target/thumbv7em-none-eabihf/debug/resc",
+      "svdFile": "./STM32F407.svd",
+      "servertype": "pyocd",
+      "runToMain": true,
+      "swoConfig": {
+        "enabled": true,
+        "swoFrequency": 2000000,
+        "cpuFrequency": 168000000,
+        "source": "probe",
+        "decoders": [
+          {
+            "type": "console",
+            "showOnStartup": true,
+            "port": 0,
+            "label": "ITM",
+            "encoding": "utf8"
+          }
+        ]
+      }
+    },
+    {
+      "type": "cortex-debug",
+      "request": "launch",
+      "name": "Debug (OpenOCD)",
+      "cwd": "${workspaceRoot}",
+      "executable": "./target/thumbv7em-none-eabihf/debug/resc",
+      "svdFile": "./STM32F407.svd",
+      "servertype": "openocd",
+      "configFiles": [
+        "./openocd.cfg"
+      ],
+      "runToMain": true,
+      "swoConfig": {
+        "enabled": true,
+        "swoFrequency": 2000000,
+        "cpuFrequency": 168000000,
+        "source": "probe",
+        "decoders": [
+          {
+            "type": "console",
+            "showOnStartup": true,
+            "port": 0,
+            "label": "ITM",
+            "encoding": "utf8"
+          }
+        ]
+      }
+    }
+  ]
+}
