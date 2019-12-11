@@ -88,9 +88,9 @@ pub enum Phase {
 
 /// Hardware motor control PWM peripheral
 pub struct Mcpwm<TIM, PINS> {
-    clocks: Clocks,
     tim: TIM,
     pins: PINS,
+    clocks: Clocks,
 }
 
 impl<PINS> Mcpwm<TIM1, PINS> {
@@ -123,14 +123,14 @@ impl<PINS> Mcpwm<TIM1, PINS> {
 
         tim.cr1.modify(|_, w| w.cen().enabled());
 
-        Mcpwm { clocks, tim, pins }
+        Mcpwm { tim, pins, clocks }
     }
 }
 
 impl<PINS> Pwm for Mcpwm<TIM1, PINS> {
     type Channel = Phase;
     type Time = Hertz;
-    type Duty = u16;
+    type Duty = f32;
 
     fn disable(&mut self, phase: Self::Channel) {
         match phase {
@@ -193,22 +193,39 @@ impl<PINS> Pwm for Mcpwm<TIM1, PINS> {
     }
 
     fn get_period(&self) -> Self::Time {
-        // self.period
+        let arr = self.tim.arr.read().arr().bits();
+        let psc = self.tim.psc.read().psc().bits();
+
+        let ticks = arr * (psc + 1);
+        let pclk_mul = if self.clocks.ppre2() == 1 { 1 } else { 2 };
+        let frequency = self.clocks.pclk2().0 * pclk_mul / u32(ticks);
+
+        Hertz(frequency)
     }
 
     fn get_duty(&self, phase: Self::Channel) -> Self::Duty {
-        match phase {
+        let arr = self.tim.arr.read().arr().bits();
+        let duty = match phase {
             Self::Channel::U => self.tim.ccr1.read().ccr().bits(),
             Self::Channel::V => self.tim.ccr2.read().ccr().bits(),
             Self::Channel::W => self.tim.ccr3.read().ccr().bits(),
-        }
+        };
+        (duty / arr) as Self::Duty
     }
 
     fn get_max_duty(&self) -> Self::Duty {
-        self.tim.arr.read().arr().bits()
+        1.0
     }
 
-    fn set_duty(&mut self, phase: Self::Channel, duty: Self::Duty) {}
+    fn set_duty(&mut self, phase: Self::Channel, duty: Self::Duty) {
+        let arr = self.tim.arr.read().arr().bits();
+        let d = u16((arr as Self::Duty) * duty).unwrap();
+        match phase {
+            Self::Channel::U => self.tim.ccr1.write(|w| w.ccr().bits(d)),
+            Self::Channel::V => self.tim.ccr2.write(|w| w.ccr().bits(d)),
+            Self::Channel::W => self.tim.ccr3.write(|w| w.ccr().bits(d)),
+        }
+    }
 
     fn set_period<P>(&mut self, period: P)
     where
