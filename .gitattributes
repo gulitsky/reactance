@@ -2,11 +2,12 @@
 * text=auto
 
 # Ignore all test and documentation with "export-ignore"
-/.github/      export-ignore
 /.vscode/      export-ignore
 /.editorconfig export-ignore
 /.git*         export-ignore
+/.pyocd.yaml   export-ignore
 /openocd.*     export-ignore
+/*.svd         export-ignore
 
 # Do not try and merge these files
 Cargo.lock -diff

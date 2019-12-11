@@ -28,7 +28,7 @@ use stm32f4xx_hal::{self as hal, prelude::*, stm32 as device};
 
 use rtfm::app;
 
-// pub mod mcpwm;
+pub mod mcpwm;
 
 #[app(device = stm32f4xx_hal::stm32, peripherals = true)]
 const APP: () = {
