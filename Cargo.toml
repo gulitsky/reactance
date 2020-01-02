@@ -1,22 +1,22 @@
 cargo-features = ["profile-overrides"]
 
 [package]
-name = "resc"
+name = "reactance"
 version = "0.1.0-canary"
-authors = ["Andrey Gulitsky <gulitsky@reactance.io>"]
+authors = ["Andrey Gulitsky <angulitsky@gmail.com>"]
 categories = ["embedded", "hardware-support", "no-std"]
 edition = "2018"
-homepage = "https://resc.reactance.io"
+# homepage = "https://reactance.org"
 keywords = ["arm", "cortex-m", "firmware", "motor",]
 license = "Apache-2.0"
 publish = false
 readme = "README.md"
-repository = "https://github.com/xforreactance/resc"
+repository = "https://github.com/gulitsky/reactance"
 description = "Field-oriented three-phase AC motor controller firmware."
 
 [badges]
-is-it-maintained-issue-resolution = { repository = "https://github.com/xforreactance/resc" }
-is-it-maintained-open-issues = { repository = "https://github.com/xforreactance/resc" }
+is-it-maintained-issue-resolution = { repository = "https://github.com/gulitsky/reactance" }
+is-it-maintained-open-issues = { repository = "https://github.com/gulitsky/reactance" }
 maintenance = { status = "actively-developed" }
 
 [dependencies]
