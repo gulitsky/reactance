@@ -7,4 +7,4 @@ frequency: 4000000
 enable_semihosting: true
 enable_swv: true
 swv_clock: 2000000
-swv_system_clock: 168000000
+swv_system_clock: 170000000
