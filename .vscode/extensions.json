@@ -1,0 +1,6 @@
+{
+  "recommendations": [
+    "rust-lang.rust",
+    "marus25.cortex-debug"
+  ]
+}

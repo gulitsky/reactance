@@ -1,51 +1,21 @@
 [package]
 name = "reactance"
 version = "0.1.0-canary"
-authors = ["Andrey Gulitsky <angulitsky@gmail.com>"]
-categories = ["embedded", "hardware-support", "no-std"]
 edition = "2018"
-# homepage = "https://reactance.rs"
-keywords = ["arm", "cortex-m", "firmware", "motor",]
-license = "Apache-2.0"
 publish = false
-readme = "README.md"
-repository = "https://github.com/gulitsky/reactance"
-description = "Field-oriented three-phase AC motor controller firmware."
-
-[badges]
-is-it-maintained-issue-resolution = { repository = "https://github.com/gulitsky/reactance" }
-is-it-maintained-open-issues = { repository = "https://github.com/gulitsky/reactance" }
-maintenance = { status = "actively-developed" }
 
 [dependencies]
-cortex-m = "0.6.1"
-cortex-m-rt = "0.6.11"
-cortex-m-rtfm = "0.5.1"
+cortex-m = "0.6.3"
+cortex-m-rt = "0.6.12"
+nom = { version = "5.1.2", default-features = false }
 panic-persist = "0.2.1"
-
-[dependencies.stm32g4]
-version = "0.9.0"
-features = ["stm32g484", "rt"]
-
-[profile.dev]
-codegen-units = 1
-incremental = false
-lto = true
-panic = "abort"
+stm32g4 = { version = "0.11.0", features = ["stm32g474", "rt"] }
 
 [profile.dev.package."*"]
-codegen-units = 1
 opt-level = "z"
 
 [profile.release]
 codegen-units = 1
 debug = true
-incremental = false
 lto = true
 opt-level = "z"
-panic = "abort"
-
-[[bin]]
-name = "reactance"
-test = false
-bench = false
