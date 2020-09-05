@@ -1,17 +1,31 @@
 #![no_main]
 #![no_std]
 
-use panic_persist as _;
-
-use cortex_m::asm;
-use cortex_m_rt::entry;
+use panic_rtt_target as _;
+use rtt_target::{rprintln, rtt_init_print};
 use stm32g4::stm32g474 as pac;
 
-pub mod board;
+mod board;
 
-#[entry]
-fn main() -> ! {
-    asm::nop();
+#[rtic::app(device = stm32g4::stm32g474, monotonic = rtic::cyccnt::CYCCNT, peripherals = true)]
+const APP: () = {
+    struct Resources {}
 
-    loop {}
-}
+    #[init]
+    fn init(cx: init::Context) {
+        rtt_init_print!();
+
+        let mut core = cx.core;
+        // Enable the monotonic timer
+        core.DCB.enable_trace();
+        core.DWT.enable_cycle_counter();
+
+        board::init();
+        rprintln!("Reactance");
+    }
+
+    #[idle]
+    fn idle(_: idle::Context) -> ! {
+        loop {}
+    }
+};

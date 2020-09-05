@@ -1,0 +1,6 @@
+[default.general]
+chip = "STM32G473RETx"
+chip_descriptions = ["./STM32G4 Series.yaml"]
+
+[default.rtt]
+enabled = true

@@ -1,17 +1,4 @@
 {
   "version": "2.0.0",
-  "tasks": [
-    {
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "label": "Rust: cargo build - reactance",
-      "problemMatcher": [
-        "$rustc"
-      ],
-      "subcommand": "build",
-      "type": "cargo"
-    }
-  ]
+  "tasks": []
 }
