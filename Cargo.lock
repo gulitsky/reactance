@@ -171,7 +171,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cfcd4deccf5edead7dcd0531448f0bab1b935e6d88e47225b4b7c6bd3a443180"
 dependencies = [
  "cortex-m",
- "rtt-target",
+ "rtt-target 0.2.2",
 ]
 
 [[package]]
@@ -204,7 +204,7 @@ version = "0.1.0-canary"
 dependencies = [
  "cortex-m-rtic",
  "panic-rtt-target",
- "rtt-target",
+ "rtt-target 0.3.0",
  "stm32g4",
 ]
 
@@ -230,6 +230,15 @@ name = "rtt-target"
 version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0869b4c5b6a6d8c5583fc473f9eb3423a170f77626b8c8a7fb18eddcda5770e2"
+dependencies = [
+ "ufmt-write",
+]
+
+[[package]]
+name = "rtt-target"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "01a267556daa12832ffc20129af69a6db0a28af91bcf12b4468af21f48818f66"
 dependencies = [
  "cortex-m",
  "ufmt-write",
