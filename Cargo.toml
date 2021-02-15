@@ -8,7 +8,7 @@ publish = false
 cortex-m-rtic = "0.5.5"
 panic-rtt-target = { version = "0.1.1", features = ["cortex-m"] }
 rtt-target = { version = "0.3.0", features = ["cortex-m"] }
-stm32g4 = { version = "0.12.1", features = ["stm32g474"] }
+stm32g4 = { version = "0.13.0", features = ["stm32g474"] }
 
 [profile.dev.package."*"]
 opt-level = "z"
