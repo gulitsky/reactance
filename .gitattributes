@@ -5,7 +5,6 @@
 /.github/      export-ignore
 /.vscode/      export-ignore
 /.editorconfig export-ignore
-/.embed.toml   export-ignore
 /.git*         export-ignore
 
 # Do not try to diff and merge these files

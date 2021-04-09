@@ -1,6 +1,10 @@
 {
+  "[rust]": {
+    "editor.rulers": [100]
+  },
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
+  "editor.rulers": [80],
   "files.exclude": {
     "**/.git": true,
     "**/target": true

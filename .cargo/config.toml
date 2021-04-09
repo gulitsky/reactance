@@ -1,0 +1,14 @@
+[alias]
+rb = "run --bin"
+rrb = "run --release --bin"
+
+[build]
+target = "thumbv7em-none-eabihf"
+
+[target.thumbv7em-none-eabihf]
+runner = "probe-run --chip STM32G474RETx"
+rustflags = [
+  "-C", "linker=flip-link",
+  "-C", "link-arg=-Tlink.x",
+  "-C", "link-arg=-Tdefmt.x",
+]
