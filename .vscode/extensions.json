@@ -1,6 +1,7 @@
 {
   "recommendations": [
-    "rust-lang.rust",
+    "bungcip.better-toml",
+    "matklad.rust-analyzer",
     "marus25.cortex-debug"
   ]
 }

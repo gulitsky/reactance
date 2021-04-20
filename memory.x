@@ -6,11 +6,3 @@ MEMORY
 }
 
 _stack_start = ORIGIN(CCMRAM) + LENGTH(CCMRAM);
-
-SECTIONS
-{
-  .ccmram (NOLOAD) : ALIGN(4)
-  {
-    *(.ccmram)
-  } > CCMRAM
-} INSERT AFTER .bss
