@@ -7,7 +7,8 @@
   "editor.rulers": [80],
   "files.exclude": {
     "**/.git": true,
-    "**/target": true
+    "**/target": true,
+    "**/*.lock": true
   },
   "rust-analyzer.cargo.target": "thumbv7em-none-eabihf",
   "rust-analyzer.checkOnSave.allTargets": false,

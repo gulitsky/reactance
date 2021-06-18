@@ -1,7 +1,9 @@
+cargo-features = ["edition2021", "strip"]
+
 [package]
 name = "reactance"
 version = "0.1.0-canary"
-edition = "2018"
+edition = "2021"
 publish = false
 
 [dependencies]
@@ -31,6 +33,7 @@ codegen-units = 1
 debug = true
 lto = true
 opt-level = "z"
+strip = true
 
 [profile.release.build-override]
 codegen-units = 16
