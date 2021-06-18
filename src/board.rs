@@ -25,27 +25,27 @@ fn clocks_setup(flash: &pac::FLASH, pwr: &pac::PWR, rcc: &pac::RCC) {
     rcc.cr.modify(|_, w| w.hseon().set_bit());
     while rcc.cr.read().hserdy().bit_is_clear() {}
 
-    // Configure and enable PLL: 24 MHz / 6 * 85 / 2 = 170 MHz
+    // Configure and enable PLL: 24 MHz / 2 * 24 / 2 = 144 MHz
     rcc.pllcfgr.modify(|_, w| unsafe {
         // HSE is the PLL source
         w.pllsrc()
             .bits(0b11)
             // NOTE: 0b0000 is 1, 0b0001 is 2 and so on
-            // M divider is 6
+            // M divider is 2
             .pllm()
-            .bits(6 - 1)
-            // N multiplier is 85
+            .bits(2 - 1)
+            // N multiplier is 24
             .plln()
-            .bits(85)
+            .bits(24)
             // Enable PLL P output
             .pllpen()
             .set_bit()
             // Enable PLL Q output
             .pllqen()
             .set_bit()
-            // Q divider is 2
+            // Q divider is 6
             .pllq()
-            .bits(0)
+            .bits(0b10)
             // Enable PLL R output
             .pllren()
             .set_bit()
