@@ -148,6 +148,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "dsp"
+version = "0.1.0-canary"
+
+[[package]]
 name = "generic-array"
 version = "0.12.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -266,6 +270,7 @@ dependencies = [
  "cortex-m-rtic",
  "defmt",
  "defmt-rtt",
+ "dsp",
  "panic-probe",
  "stm32g4",
  "uom",

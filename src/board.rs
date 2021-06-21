@@ -15,8 +15,8 @@ fn clocks_setup(flash: &pac::FLASH, pwr: &pac::PWR, rcc: &pac::RCC) {
         .modify(|_, w| unsafe { w.latency().bits(4).prften().set_bit() });
     while flash.acr.read().latency() != 4 {}
 
-    // The system clock must be divided by 2 using the AHB prescaler before switching
-    // to a higher system frequency
+    // The system clock must be divided by 2 using the AHB prescaler before
+    // switching to a higher system frequency
     rcc.cfgr.modify(|_, w| unsafe { w.hpre().bits(0b1000) });
     // Go to boost mode for high performance
     pwr.cr5.modify(|_, w| w.r1mode().clear_bit());

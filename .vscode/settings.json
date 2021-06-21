@@ -12,5 +12,10 @@
   },
   "rust-analyzer.cargo.target": "thumbv7em-none-eabihf",
   "rust-analyzer.checkOnSave.allTargets": false,
-  "rust-analyzer.checkOnSave.extraArgs": ["--bins"]
+  "rust-analyzer.checkOnSave.extraArgs": ["--lib"],
+  "rust-analyzer.checkOnSave.target": "x86_64-unknown-linux-gnu",
+  "rust-analyzer.runnables.cargoExtraArgs": [
+    "--target",
+    "x86_64-unknown-linux-gnu"
+  ]
 }

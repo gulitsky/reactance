@@ -1,0 +1,5 @@
+[package]
+name = "dsp"
+version = "0.1.0-canary"
+edition = "2018"
+publish = false
