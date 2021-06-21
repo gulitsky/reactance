@@ -61,8 +61,8 @@ mod tests {
 
         let alpha_beta_gamma = clarke(abc);
         let (alpha, beta, gamma) = alpha_beta_gamma;
-        assert_eq!(alpha, -1.5133333);
-        assert_eq!(beta, 0.36950415);
+        assert!(approx_eq!(f32, alpha, -1.5133333, F32Margin::default()));
+        assert!(approx_eq!(f32, beta, 0.36950415, F32Margin::default()));
         assert!(approx_eq!(f32, gamma, -0.3966666, F32Margin::default()));
 
         let (a1, b1, c1) = inverse_clarke(alpha_beta_gamma);
@@ -78,8 +78,8 @@ mod tests {
 
         let alpha_beta_gamma = clarke(abc);
         let (alpha, beta, gamma) = alpha_beta_gamma;
-        assert_eq!(alpha, a0);
-        assert_eq!(beta, 1.391414);
+        assert!(approx_eq!(f32, alpha, a0, F32Margin::default()));
+        assert!(approx_eq!(f32, beta, 1.391414, F32Margin::default()));
         assert_eq!(gamma, 0.0);
 
         let (a1, b1, c1) = inverse_clarke(alpha_beta_gamma);
