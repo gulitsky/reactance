@@ -3,3 +3,16 @@ name = "dsp"
 version = "0.1.0-canary"
 edition = "2018"
 publish = false
+
+[[bench]]
+name = "bench"
+harness = false
+
+[dev-dependencies]
+easybench = "1.1.0"
+float-cmp = "0.8.0"
+
+[features]
+default = ["f32"]
+f32 = []
+f64 = []

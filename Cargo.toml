@@ -26,9 +26,6 @@ defmt-info = []
 defmt-warn = []
 defmt-error = []
 
-[workspace]
-members = ["./dsp/"]
-
 [profile.dev.package."*"]
 opt-level = "z"
 
@@ -43,3 +40,6 @@ strip = true
 codegen-units = 16
 debug = false
 opt-level = 0
+
+[workspace]
+members = ["./dsp/"]
