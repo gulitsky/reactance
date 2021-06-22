@@ -6,7 +6,10 @@ fn clarke_bench() {
 }
 
 fn inverse_clarke_bench() {
-    println!("clarke {}", bench(|| inverse_clarke((1.0, 2.0, -3.0))));
+    println!(
+        "inverse clarke {}",
+        bench(|| inverse_clarke((1.0, 2.0, -3.0)))
+    );
 }
 
 fn main() {

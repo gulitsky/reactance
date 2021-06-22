@@ -2,7 +2,7 @@ use core::default::default;
 
 use crate::{
     consts::{FRAC_1_3, FRAC_1_SQRT_3, FRAC_SQRT_3_2},
-    types::{Abc, AlphaBetaGamma},
+    types::{Abc, AlphaBetaGamma, Dq},
 };
 
 #[inline]
@@ -28,6 +28,9 @@ pub fn inverse_clarke((alpha, beta, gamma): AlphaBetaGamma) -> Abc {
 
     abc
 }
+
+#[inline]
+pub fn park() -> Dq {}
 
 #[cfg(test)]
 mod tests {
