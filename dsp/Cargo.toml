@@ -10,4 +10,4 @@ harness = false
 
 [dev-dependencies]
 easybench = "1.1.0"
-float-cmp = "0.8.0"
+float-cmp = "0.9.0"
