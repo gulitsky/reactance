@@ -13,7 +13,7 @@ defmt-rtt = "0.2.0"
 dsp = { path = "./dsp/" }
 panic-probe = { version = "0.2.0", features = ["print-defmt"] }
 stm32g4 = { version = "0.13.0", features = ["stm32g474"] }
-uom = { version = "0.31.1", default-features = false, features = ["autoconvert", "f32", "si", "use_serde"] }
+uom = { version = "0.32.0", default-features = false, features = ["autoconvert", "f32", "si", "use_serde"] }
 
 [features]
 default = [
