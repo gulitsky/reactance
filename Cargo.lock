@@ -83,32 +83,11 @@ dependencies = [
 
 [[package]]
 name = "cortex-m-rt"
-version = "0.6.12"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "00d518da72bba39496024b62607c1d8e37bcece44b2536664f1132a73a499a28"
-dependencies = [
- "cortex-m-rt-macros 0.1.8",
- "r0",
-]
-
-[[package]]
-name = "cortex-m-rt"
 version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3c433da385b720d5bb9f52362fa2782420798e68d40d67bfe4b0d992aba5dfe7"
 dependencies = [
- "cortex-m-rt-macros 0.7.0",
-]
-
-[[package]]
-name = "cortex-m-rt-macros"
-version = "0.1.8"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4717562afbba06e760d34451919f5c3bf3ac15c7bb897e8b04862a7428378647"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn",
+ "cortex-m-rt-macros",
 ]
 
 [[package]]
@@ -312,12 +291,11 @@ dependencies = [
 
 [[package]]
 name = "panic-probe"
-version = "0.2.0"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "45b5c81d6b51f415b3ba40b30dc598dfffb29ad4cf4a8815989754850ce6c0dc"
+checksum = "6a0fa226f55c70d0d70ad373802f0d65a775478afec75c0f3eee1de5d39057c9"
 dependencies = [
- "cortex-m 0.6.7",
- "cortex-m-rt 0.6.12",
+ "cortex-m 0.7.4",
  "defmt",
 ]
 
@@ -338,12 +316,6 @@ checksum = "c3d0b9745dc2debf507c8422de05d7226cc1f0644216dfdfead988f9b1ab32a7"
 dependencies = [
  "proc-macro2",
 ]
-
-[[package]]
-name = "r0"
-version = "0.2.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e2a38df5b15c8d5c7e8654189744d8e396bddc18ad48041a500ce52d6948941f"
 
 [[package]]
 name = "reactance"
@@ -425,7 +397,7 @@ checksum = "c5b3b7945efb16e1737f5de5d4acd5c44aaf715a8bd77637fc8a89449b2938e2"
 dependencies = [
  "bare-metal 1.0.0",
  "cortex-m 0.7.4",
- "cortex-m-rt 0.7.1",
+ "cortex-m-rt",
  "vcell",
 ]
 
