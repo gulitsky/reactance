@@ -219,9 +219,9 @@ dependencies = [
 
 [[package]]
 name = "easybench"
-version = "1.1.0"
+version = "1.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "355215cf95ddc4db0459d5313c9b146bedd43453305e3f0f1c4e8fde7f8d3884"
+checksum = "0fe5e0c7c863ab37184b6310b4ff6b857c71814ff38e93c5b99fbda1467a5a32"
 
 [[package]]
 name = "embedded-hal"
